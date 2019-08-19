@@ -1,0 +1,39 @@
+import cv2
+import time
+
+# Set duration of desired time length in seconds. this example runs for 4 hours = 14400 seconds
+capture_duration = 14400
+
+# Create a VideoCapture object
+cap = cv2.VideoCapture(0)
+ 
+# Check if camera opened successfully
+if (cap.isOpened() == False): 
+  print("Unable to read camera feed")
+ 
+# This instructs the script to pick its own resolution. can be changed to specific resolutions
+frame_width = int(cap.get(3))
+frame_height = int(cap.get(4))
+ 
+# Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
+out = cv2.VideoWriter('d141218.avi',cv2.VideoWriter_fourcc('X','V','I','D'), 30, (frame_width,frame_height))
+start_time=time.time()
+while( int(time.time() - start_time) < capture_duration ): 
+
+  ret, frame = cap.read()
+ 
+  if ret == True: 
+     
+    # Write the frame into the file 'output.avi'
+    out.write(frame)
+ 
+    # Display the resulting frame    
+    cv2.imshow('frame',frame)
+ 
+    # Press Q on keyboard to stop recording
+    #if cv2.waitKey(1) & 0xFF == ord('q'):
+      #break
+ 
+  # Break the loop
+  else:
+    break
